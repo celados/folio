@@ -1,0 +1,11 @@
+{
+  "name": "@folio/core",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/mount.ts"
+  },
+  "dependencies": {
+    "ripple": "^0.3.108"
+  }
+}

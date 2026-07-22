@@ -1,0 +1,16 @@
+{
+  "name": "@folio/react",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/mount.tsx"
+  },
+  "dependencies": {
+    "@folio/core": "workspace:*",
+    "react": "^19.2.8",
+    "ripple": "^0.3.108"
+  },
+  "devDependencies": {
+    "react-dom": "^19.2.8"
+  }
+}
