@@ -31,9 +31,9 @@ describe('Mount', () => {
     await act(async () => {
       root.render(<Mount component={Lifecycle} initialProps={initialProps} />)
     })
-    await expect.poll(() => host.textContent).toBe('Mounted component')
     flushSync()
 
+    expect(host.textContent).toBe('Mounted component')
     expect(mounts).toBe(1)
 
     await act(async () => {
