@@ -1,0 +1,49 @@
+name: Release packages
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - name: Check out the release revision
+        uses: actions/checkout@v7
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1
+
+      - name: Install the locked workspace
+        run: vp install --frozen-lockfile
+
+      - name: Build and inspect package artifacts
+        run: bun run packages:pack
+
+      - name: Verify artifacts in a clean consumer
+        run: bun run packages:verify
+
+      - name: Check source contracts
+        run: |
+          bun run check
+          bun run typecheck
+          bun run test
+
+      - name: Build both acceptance hosts
+        run: bun run build
+
+      - name: Exercise both hosts in system Chrome
+        run: bun run test:e2e
+
+      - name: Publish the inspected artifacts
+        run: bun scripts/packages.ts publish
+
+      - name: Verify exact versions from GitHub Packages
+        run: bun scripts/packages.ts verify-published

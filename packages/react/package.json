@@ -1,16 +1,33 @@
 {
-  "name": "@folio/react",
-  "private": true,
+  "name": "@celados/folio-react",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/celados/folio.git",
+    "directory": "packages/react"
+  },
+  "files": [
+    "LICENSE",
+    "src/mount.tsx",
+    "README.md"
+  ],
   "type": "module",
   "exports": {
     ".": "./src/mount.tsx"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "dependencies": {
-    "@folio/core": "workspace:*",
-    "react": "^19.2.8",
+    "@celados/folio": "workspace:*",
     "ripple": "^0.3.108"
   },
   "devDependencies": {
+    "react": "^19.2.8",
     "react-dom": "^19.2.8"
+  },
+  "peerDependencies": {
+    "react": "^19.2.8"
   }
 }

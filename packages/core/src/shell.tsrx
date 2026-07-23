@@ -11,7 +11,7 @@ export function Shell(props: ShellProps) @{
   @try {
     <{component} {...initialProps} />
   } @pending {
-    <div aria-live="polite">{'Loading component…'}</div>
+    <div aria-live="polite">Loading component…</div>
   } @catch (error) {
     <div role="alert">
       {error instanceof Error ? error.message : 'Component failed to render.'}

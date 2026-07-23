@@ -1,0 +1,33 @@
+{
+  "name": "@celados/folio-ui",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/celados/folio.git",
+    "directory": "packages/ui"
+  },
+  "files": [
+    "LICENSE",
+    "src/data-table.tsrx",
+    "src/download-button.tsrx",
+    "src/index.ts",
+    "src/inspector.tsrx",
+    "src/status-panel.tsrx",
+    "src/types.ts",
+    "README.md"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "ripple": "^0.3.108"
+  },
+  "devDependencies": {
+    "@celados/folio": "workspace:*"
+  }
+}

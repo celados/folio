@@ -1,5 +1,5 @@
 import { cloudflare } from '@cloudflare/vite-plugin'
-import { ripple } from '@ripple-ts/vite-plugin'
+import { folio } from '@celados/folio-vite'
 import tailwindcss from '@tailwindcss/vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
@@ -9,6 +9,7 @@ import { defineConfig, lazyPlugins } from 'vite-plus'
 import { oxfmtConfig } from './tooling/oxfmt'
 
 const ROUTER_GEN_PATH = 'src/route-tree.gen.ts'
+const isTest = process.env.VITEST === 'true'
 const config = defineConfig({
   staged: {
     '*': 'vp check --fix',
@@ -23,14 +24,18 @@ const config = defineConfig({
       functions: ['cn', 'cx', 'clsx', 'cva'],
     },
   },
-  resolve: { tsconfigPaths: true },
+  resolve: {
+    // Host adapters must share the renderer's React module even when the package is linked source.
+    dedupe: ['react', 'react-dom'],
+    tsconfigPaths: true,
+  },
   plugins: lazyPlugins(() => [
     // Cloudflare must own Start's SSR environment so development and builds
     // execute against the Workers runtime: https://developers.cloudflare.com/workers/vite-plugin/reference/vite-environments/
-    cloudflare({ viteEnvironment: { name: 'ssr' } }),
+    ...(!isTest ? [cloudflare({ viteEnvironment: { name: 'ssr' } })] : []),
     devtools(),
     tailwindcss(),
-    ripple(),
+    ...folio(),
     tanstackStart({
       router: {
         generatedRouteTree: 'route-tree.gen.ts',

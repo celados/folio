@@ -1,48 +1,34 @@
-# TanStack Start Template
+# Folio TanStack Start acceptance app
 
-An organization-shared TanStack Start template for Agent Native projects
-created with Vite+.
+This app proves that a named Ripple component can live in an unrelated TanStack Start project,
+import a build-time Folio Resource, and own a substantial interactive document behind one stable
+React DOM mount.
 
-The template starts from shadcn/ui's `b0` TanStack Start preset, uses Base UI,
-Tailwind CSS v4, React 19, TypeScript, Bun, and Vite+.
+`WorldDevelopmentReport` rebuilds interaction patterns from four official Observable/D3 notebooks
+without an iframe or Observable runtime:
 
-## Create a project
+- Wealth & Health of Nations: animated Gapminder data with sparse-series interpolation.
+- Brushable Scatterplot: cohort selection feeding summary metrics and a table.
+- Zoomable Treemap: region-to-country population drill-down.
+- Line with Tooltip: exact historical values and click-to-set-year linkage.
 
-The default branch is the only template source. The template does not publish or
-maintain versioned releases.
+The 180-country attachment is compiled by DuckDB through `@celados/folio-vite`; SQL, the native driver and
+source path remain build-only.
 
-```bash
-vp create github:celados/templates/templates/tanstack-start \
-  --package-manager bun \
-  --no-agent \
-  --editor vscode \
-  --hooks \
-  --git \
-  --no-interactive \
-  -- <project-directory>
-```
-
-## Develop the template
+## Run locally
 
 ```bash
 vp install
 vp dev --port 3000
+```
+
+## Verify
+
+```bash
 vp check
+vp test --run
 vp build
 ```
 
-The organization Oxfmt baseline lives in `tooling/oxfmt.ts`; `vite.config.ts`
-adds TanStack Start's generated-route exclusion and Tailwind stylesheet path.
-
-Cloudflare bindings and runtime types are generated inside the TypeScript
-source tree:
-
-```bash
-bun run cf-typegen
-```
-
-This writes `src/worker-configuration.d.ts`. The template's `check` script also
-runs Wrangler in check mode so configuration and generated types cannot drift.
-
-The Agent Native project contract and guidance are maintained as a shared layer
-with the Astro template.
+The complete provenance and interaction matrix lives in
+[`../../../docs/example-acceptance.md`](../../../docs/example-acceptance.md).

@@ -1,9 +1,24 @@
 {
-  "name": "@folio/core",
-  "private": true,
+  "name": "@celados/folio",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/celados/folio.git",
+    "directory": "packages/core"
+  },
+  "files": [
+    "LICENSE",
+    "src/mount.ts",
+    "src/shell.tsrx",
+    "README.md"
+  ],
   "type": "module",
   "exports": {
     ".": "./src/mount.ts"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "dependencies": {
     "ripple": "^0.3.108"

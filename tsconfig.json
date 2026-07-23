@@ -8,9 +8,10 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
     "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
     "strict": true,
     "target": "ES2024",
-    "types": ["vite/client"]
+    "types": ["node", "vite/client"]
   },
   "include": ["packages/**/*.ts", "packages/**/*.tsx"]
 }

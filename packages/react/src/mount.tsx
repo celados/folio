@@ -1,27 +1,40 @@
-import { mount } from '@folio/core'
+import { mount } from '@celados/folio'
 import type { Component } from 'ripple'
-import { useEffect, useRef } from 'react'
+import { Component as ReactComponent } from 'react'
 
 export type MountProps<TProps extends object> = {
   component: Component<TProps>
   initialProps: TProps
 }
 
-export function Mount<TProps extends object>(props: MountProps<TProps>) {
-  const targetRef = useRef<HTMLDivElement>(null)
-  // Host rerenders cannot mutate a live Ripple tree; a React key starts a new lifecycle.
-  const initialMount = useRef(props)
+class MountLifecycle<TProps extends object> extends ReactComponent<MountProps<TProps>> {
+  private dispose: (() => void) | null = null
+  private target: HTMLDivElement | null = null
 
-  useEffect(() => {
-    const target = targetRef.current
+  private captureTarget = (target: HTMLDivElement | null) => {
+    this.target = target
+  }
 
-    if (target === null) {
+  componentDidMount() {
+    if (this.target === null) {
       throw new Error('Mount target was not attached')
     }
 
-    const { component, initialProps } = initialMount.current
-    return mount({ component, initialProps, target })
-  }, [])
+    const { component, initialProps } = this.props
+    this.dispose = mount({ component, initialProps, target: this.target })
+  }
 
-  return <div ref={targetRef} />
+  componentWillUnmount() {
+    this.dispose?.()
+    this.dispose = null
+  }
+
+  render() {
+    // A class lifecycle avoids coupling this linked adapter to the Host's hook dispatcher.
+    return <div ref={this.captureTarget} style={{ display: 'contents' }} />
+  }
+}
+
+export function Mount<TProps extends object>(props: MountProps<TProps>) {
+  return <MountLifecycle {...props} />
 }

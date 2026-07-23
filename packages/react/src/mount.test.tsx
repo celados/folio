@@ -34,6 +34,7 @@ describe('Mount', () => {
     flushSync()
 
     expect(host.textContent).toBe('Mounted component')
+    expect((host.firstElementChild as HTMLElement).style.display).toBe('contents')
     expect(mounts).toBe(1)
 
     await act(async () => {

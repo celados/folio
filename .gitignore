@@ -1,8 +1,13 @@
 node_modules/
 dist/
+.artifacts/
+.astro/
+.trash/
+playwright-report/
+test-results/
 .wrangler/
 .output/
 .tanstack/
 coverage/
+.folio/
 *.tsbuildinfo
-

@@ -1,0 +1,39 @@
+---
+import '../styles/global.css'
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content="The same Folio component mounted by an Astro host." />
+    <title>Folio · Astro acceptance host</title>
+  </head>
+  <body>
+    <main>
+      <div id="world-development-report"></div>
+    </main>
+
+    <script>
+      import { mount } from '@celados/folio'
+      import { WorldDevelopmentReport } from '@celados/folio-example-world-development'
+
+      const target = document.querySelector<HTMLElement>('#world-development-report')
+      if (target === null) throw new Error('Folio mount target was not rendered')
+
+      const dispose = mount({
+        component: WorldDevelopmentReport,
+        initialProps: {
+          subtitle:
+            'The identical named component and materialized Resource, mounted through Astro’s stable DOM boundary.',
+          title: 'World development atlas',
+        },
+        target,
+      })
+
+      // This remains correct if the Host later enables Astro view transitions.
+      document.addEventListener('astro:before-swap', dispose, { once: true })
+    </script>
+  </body>
+</html>

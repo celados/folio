@@ -1,0 +1,36 @@
+{
+  "name": "@celados/folio-vite",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/celados/folio.git",
+    "directory": "packages/vite"
+  },
+  "files": [
+    "LICENSE",
+    "dist",
+    "README.md"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "vp pack"
+  },
+  "dependencies": {
+    "@celados/folio-resources": "workspace:*",
+    "@ripple-ts/vite-plugin": "^0.3.108"
+  },
+  "peerDependencies": {
+    "@duckdb/node-api": ">=1.5.4-r.1 <2",
+    "vite": "^8.1.5"
+  }
+}

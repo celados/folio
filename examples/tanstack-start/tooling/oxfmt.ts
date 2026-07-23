@@ -25,7 +25,8 @@ export const oxfmtConfig = {
     'dist',
     '*.lock',
     '**/*.gen.ts',
-    '**/worker-configuration.d.ts',
+    'src/worker-configuration.d.ts',
+    'src/resources/**/*.json',
     'convex/_generated',
   ],
 } satisfies OxfmtConfig
