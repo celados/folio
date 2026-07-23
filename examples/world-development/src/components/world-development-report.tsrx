@@ -1,9 +1,12 @@
 import { bindValue, effect, track } from 'ripple'
-import { DataTable, DownloadButton, Inspector } from '@celados/folio-ui'
+import { DataTable, DownloadButton, Inspector, Search } from '@celados/folio-ui'
 import type { DataTableColumn } from '@celados/folio-ui'
 
 import { CountryHistoryChart } from './country-history-chart.tsrx'
+import { AdvancedResourcePreview } from './advanced-resource-preview.tsrx'
 import { RegionalTreemap } from './regional-treemap.tsrx'
+import { ResourceFilePreview } from './resource-file-preview.tsrx'
+import { TableAcceptancePreview } from './table-acceptance-preview.tsrx'
 import { WealthHealthChart } from './wealth-health-chart.tsrx'
 import {
   assertWorldDevelopmentData,
@@ -48,7 +51,8 @@ export function WorldDevelopmentReport(props: WorldDevelopmentReportProps) @{
   const histories = worldDevelopment.data
   assertWorldDevelopmentData(histories)
   let &[snapshot] = track(() => snapshotAt(histories, year))
-  let &[visible] = track(() => filterSnapshots(snapshot, region, query))
+  let &[regionRows] = track(() => filterSnapshots(snapshot, region, ''))
+  let &[visible] = track<readonly NationSnapshot[]>(regionRows)
   let &[selection] = track(() => selectByBrush(visible, brush))
   let &[summary] = track(() => summarize(visible))
   let &[selectedHistory] = track(
@@ -135,22 +139,22 @@ export function WorldDevelopmentReport(props: WorldDevelopmentReportProps) @{
           }
         </select>
       </label>
-      <label class="search-field">
-        <span>Find a country</span>
-        <input
-          type="search"
-          placeholder="Try Japan, Brazil, Kenya…"
-          ref={bindValue(() => query, (value) => {
-            query = value
-            brush = null
-          })}
-        />
-      </label>
+      <Search
+        rows={regionRows}
+        columns={['name', 'region']}
+        query={query}
+        label="Find a country"
+        placeholder="Try Japan, Brazil, Kenya…"
+        onQueryChange={(value) => {
+          query = value
+          brush = null
+        }}
+        onChange={(rows) => (visible = rows)}
+      />
       <DownloadButton
-        content={serializeSnapshot}
-        filename={() => `world-development-${year}.csv`}
+        source={() => new Blob([serializeSnapshot()], { type: 'text/csv' })}
+        filename={`world-development-${year}.csv`}
         label="Export visible CSV"
-        mediaType="text/csv"
       />
     </section>
 
@@ -204,8 +208,12 @@ export function WorldDevelopmentReport(props: WorldDevelopmentReportProps) @{
         columns={TABLE_COLUMNS}
         rows={tableRows}
         rowKey={(nation) => nation.name}
-        isSelected={(nation) => nation.name === selectedCountry}
-        onSelect={(nation) => selectCountry(nation.name)}
+        select="single"
+        selectedKeys={[selectedCountry]}
+        onSelectionChange={(nextSelection) => {
+          const nation = nextSelection.rows[0]
+          if (nation) selectCountry(nation.name)
+        }}
       />
     </section>
 
@@ -213,6 +221,13 @@ export function WorldDevelopmentReport(props: WorldDevelopmentReportProps) @{
       <Inspector label="Resource schema" value={worldDevelopment.schema} />
       <Inspector label="Resource provenance" value={worldDevelopment.provenance} />
     </section>
+
+    <ResourceFilePreview />
+    <AdvancedResourcePreview />
+    <TableAcceptancePreview
+      histories={histories}
+      sourceHash={worldDevelopment.provenance.artifactHash}
+    />
 
     <footer>
       <div>
@@ -224,6 +239,7 @@ export function WorldDevelopmentReport(props: WorldDevelopmentReportProps) @{
         <a href="https://observablehq.com/@d3/brushable-scatterplot" target="_blank" rel="noreferrer">Brushable Scatterplot</a>
         <a href="https://observablehq.com/@d3/zoomable-treemap" target="_blank" rel="noreferrer">Zoomable Treemap</a>
         <a href="https://observablehq.com/@d3/line-with-tooltip/2" target="_blank" rel="noreferrer">Line with Tooltip</a>
+        <a href="https://www.gapminder.org/" target="_blank" rel="noreferrer">Based on free Gapminder material · CC BY</a>
       </nav>
     </footer>
 

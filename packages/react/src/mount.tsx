@@ -1,10 +1,10 @@
-import { mount } from '@celados/folio'
+import { mount, type InitialProps } from '@celados/folio'
 import type { Component } from 'ripple'
 import { Component as ReactComponent } from 'react'
 
 export type MountProps<TProps extends object> = {
   component: Component<TProps>
-  initialProps: TProps
+  initialProps: InitialProps<TProps>
 }
 
 class MountLifecycle<TProps extends object> extends ReactComponent<MountProps<TProps>> {

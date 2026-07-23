@@ -15,13 +15,13 @@ summary: Freezes the public module seams, Vite-bound source distribution, and co
 
 Folio ships five public packages under the GitHub Packages scope owned by the repository organization:
 
-| Package                    | Owns                                                        | Must not own                                            |
-| -------------------------- | ----------------------------------------------------------- | ------------------------------------------------------- |
-| `@celados/folio`           | Framework-neutral Ripple mount lifecycle and Shell boundary | Host framework adapters, Resource compilation           |
-| `@celados/folio-react`     | React DOM-ref and lifecycle adapter                         | Ripple component state or rendering policy              |
-| `@celados/folio-resources` | Resource declarations and public artifact types             | Query execution or Vite hooks                           |
-| `@celados/folio-vite`      | TSRX compilation and build-time Resource materialization    | Product UI or runtime SQL                               |
-| `@celados/folio-ui`        | Explicit reusable TSRX components for data presentation     | Implicit display semantics or Host-framework components |
+| Package                    | Owns                                                              | Must not own                                            |
+| -------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------- |
+| `@celados/folio`           | Framework-neutral Ripple mount lifecycle and Shell boundary       | Host framework adapters, Resource compilation           |
+| `@celados/folio-react`     | React DOM-ref and lifecycle adapter                               | Ripple component state or rendering policy              |
+| `@celados/folio-resources` | Resource declarations, artifact types, and `ResourceFile` readers | Query execution or Vite hooks                           |
+| `@celados/folio-vite`      | TSRX compilation and build-time Resource materialization          | Product UI or runtime SQL                               |
+| `@celados/folio-ui`        | Explicit reusable TSRX components for data presentation           | Implicit display semantics or Host-framework components |
 
 Folio is deliberately Vite-bound. Packages containing `.tsrx` are source-first so the consumer's Vite graph
 owns component compilation. `@celados/folio-vite` and `@celados/folio-resources` ship compiled ESM plus
@@ -31,8 +31,9 @@ a production Vite build.
 
 ## Host boundary
 
-A Host owns a stable DOM node and its own lifecycle. It passes one named Ripple component and an initial flat
-object to `mount`. No reactive state contract, UI component model, or error state crosses the boundary.
+A Host owns a stable DOM node and its own lifecycle. It passes one named Ripple component and an initial plain
+props record to `mount`. Mount treats the record and every field as opaque; no reactive state contract, UI
+component model, or error state crosses the boundary.
 
 React has a package adapter because React owns a distinct lifecycle and renderer identity. Astro uses the
 framework-neutral mount API from a small client script; an Astro package would add a seam without new policy.
@@ -43,6 +44,10 @@ A named `*.resource.ts` export remains an ordinary ESM value to component author
 and native work only at build time, records provenance, and emits the materialized payload behind an async module
 boundary. Importers wait for module evaluation, then receive a synchronous immutable Resource value. Neither SQL
 nor DuckDB enters the browser graph.
+
+Ordinary static files use the consumer's Vite asset graph. Authors import a file with `?url`, construct a
+`ResourceFile`, and explicitly choose a reader such as `csv`, `arrow`, `parquet`, `zip`, or `xlsx`. This keeps
+asset resolution in Vite while `@celados/folio-resources` owns typed decoding and contextual failures.
 
 ## Release contract
 

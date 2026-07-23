@@ -6,6 +6,7 @@ const config = defineConfig({
     // Resource inputs are provenance-bearing source bytes, not authored config files.
     ignorePatterns: [
       '.folio/**',
+      '.scratch/**',
       '.trash/**',
       'examples/**/.astro/**',
       'examples/**/dist/**',
@@ -18,6 +19,7 @@ const config = defineConfig({
   },
   lint: {
     ignorePatterns: [
+      '.scratch/**',
       '.trash/**',
       'examples/**/.astro/**',
       'examples/**/dist/**',

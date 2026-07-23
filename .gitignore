@@ -10,4 +10,5 @@ test-results/
 .tanstack/
 coverage/
 .folio/
+.scratch/
 *.tsbuildinfo

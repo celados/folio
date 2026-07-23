@@ -17,6 +17,7 @@ type Manifest = {
   dependencies?: Record<string, string>
   files?: string[]
   name: string
+  peerDependencies?: Record<string, string>
   private?: boolean
   publishConfig?: { registry?: string }
   version: string
@@ -184,12 +185,10 @@ async function verifyConsumer(
   try {
     await writeConsumer(directory)
     if (npmrc) await writeFile(join(directory, '.npmrc'), `${npmrc}\n`)
-    run(
-      'bun',
-      ['add', 'ripple', 'react', 'react-dom', '@duckdb/node-api', '@ripple-ts/vite-plugin', 'vite'],
-      directory,
-    )
+    const directDependencies = ['react', 'react-dom', '@duckdb/node-api', 'vite']
+    run('bun', ['add', ...directDependencies], directory)
     if (installSequentially) {
+      run('bun', ['add', ...localPackageDependencies(directDependencies)], directory)
       // Exact tarball extraction proves package contents without teaching Bun a fake local registry.
       await extractLocalPackages(directory, packageSpecifiers)
     } else {
@@ -199,6 +198,32 @@ async function verifyConsumer(
   } finally {
     await rm(directory, { force: true, recursive: true })
   }
+}
+
+function localPackageDependencies(excluded: readonly string[]): string[] {
+  const publicNames = new Set(publicPackages.map(({ name }) => name))
+  const excludedNames = new Set(excluded)
+  const dependencies = new Map<string, string>()
+
+  for (const { manifest } of manifests) {
+    for (const [name, version] of Object.entries({
+      ...manifest.dependencies,
+      ...manifest.peerDependencies,
+    })) {
+      if (publicNames.has(name) || excludedNames.has(name) || version.startsWith('workspace:')) {
+        continue
+      }
+      const existing = dependencies.get(name)
+      if (existing !== undefined && existing !== version) {
+        throw new Error(
+          `External dependency ${name} has conflicting ranges ${existing} and ${version}`,
+        )
+      }
+      dependencies.set(name, version)
+    }
+  }
+
+  return [...dependencies].map(([name, version]) => `${name}@${version}`)
 }
 
 async function extractLocalPackages(

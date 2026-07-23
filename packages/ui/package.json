@@ -9,10 +9,13 @@
   },
   "files": [
     "LICENSE",
+    "src/data-table-model.ts",
     "src/data-table.tsrx",
     "src/download-button.tsrx",
     "src/index.ts",
+    "src/inspector-model.ts",
     "src/inspector.tsrx",
+    "src/search.tsrx",
     "src/status-panel.tsrx",
     "src/types.ts",
     "README.md"

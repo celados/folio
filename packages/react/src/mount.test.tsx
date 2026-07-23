@@ -38,10 +38,16 @@ describe('Mount', () => {
     expect(mounts).toBe(1)
 
     await act(async () => {
-      root.render(<Mount component={Lifecycle} initialProps={initialProps} />)
+      root.render(
+        <Mount
+          component={Lifecycle}
+          initialProps={{ ...initialProps, label: 'Ignored Host rerender' }}
+        />,
+      )
     })
     flushSync()
 
+    expect(host.textContent).toBe('Mounted component')
     expect(mounts).toBe(1)
 
     await act(async () => {

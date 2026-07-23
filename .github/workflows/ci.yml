@@ -1,0 +1,53 @@
+name: Continuous integration
+
+on:
+  pull_request:
+  push:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      # Folio verifies the browser users actually run instead of downloading a second engine.
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - name: Check out the revision
+        uses: actions/checkout@v7
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Set up Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          run-install: false
+
+      - name: Install the locked workspace
+        run: vp install --frozen-lockfile
+
+      - name: Check source contracts
+        run: |
+          bun run capabilities:check
+          bun run check
+          bun run typecheck
+          bun run test
+
+      - name: Build and verify package artifacts
+        run: |
+          bun run packages:pack
+          bun run packages:verify
+
+      - name: Build both acceptance hosts
+        run: bun run build
+
+      - name: Exercise both hosts in system Chrome
+        run: |
+          bun run test:e2e
+          bun run test:hmr

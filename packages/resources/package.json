@@ -9,6 +9,7 @@
   },
   "files": [
     "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
     "dist",
     "README.md"
   ],
@@ -21,6 +22,26 @@
     "./internal": {
       "types": "./dist/internal.d.mts",
       "import": "./dist/internal.mjs"
+    },
+    "./readers/arrow": {
+      "types": "./dist/readers/arrow.d.mts",
+      "import": "./dist/readers/arrow.mjs"
+    },
+    "./readers/arquero": {
+      "types": "./dist/readers/arquero.d.mts",
+      "import": "./dist/readers/arquero.mjs"
+    },
+    "./readers/parquet": {
+      "types": "./dist/readers/parquet.d.mts",
+      "import": "./dist/readers/parquet.mjs"
+    },
+    "./readers/xlsx": {
+      "types": "./dist/readers/xlsx.d.mts",
+      "import": "./dist/readers/xlsx.mjs"
+    },
+    "./readers/zip": {
+      "types": "./dist/readers/zip.d.mts",
+      "import": "./dist/readers/zip.mjs"
     }
   },
   "publishConfig": {
@@ -28,5 +49,16 @@
   },
   "scripts": {
     "build": "vp pack"
+  },
+  "dependencies": {
+    "apache-arrow": "^21.2.0",
+    "arquero": "^8.0.3",
+    "d3-dsv": "^3.0.1",
+    "exceljs": "^4.4.0",
+    "jszip": "^3.10.1",
+    "parquet-wasm": "^0.7.2"
+  },
+  "devDependencies": {
+    "@types/d3-dsv": "^3.0.7"
   }
 }

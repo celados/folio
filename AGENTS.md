@@ -9,7 +9,8 @@ frameworks. `Notebook` is product language only; engineering symbols use `Compon
 - Maintain the static Mount and Resource Pipeline vertical slices.
 - `packages/core` owns the framework-neutral DOM mount interface and TSRX Shell.
 - `packages/react` owns the React lifecycle adapter only.
-- `packages/resources` owns author-facing Resource types and declarations only.
+- `packages/resources` owns author-facing Resource declarations, artifact types, and browser-side
+  `ResourceFile` readers.
 - `packages/vite` owns Ripple plugin composition, Resource compilation, cache, artifacts, the
   internal DuckDB adapter and build diagnostics.
 - `packages/ui` owns explicit reusable TSRX presentation components; it never recreates implicit
@@ -25,6 +26,8 @@ frameworks. `Notebook` is product language only; engineering symbols use `Compon
 - Components are ordinary named `.tsrx` exports.
 - Resources are ordinary named `*.resource.ts` exports compiled by `@celados/folio-vite`; they never execute
   in the browser.
+- Static files enter authored components through Vite asset URLs and `ResourceFile`; Folio does not
+  maintain a parallel asset registry or resolver.
 - Query text, native drivers, source declarations and absolute paths must not enter client output.
 - Resource failures are build failures; never replace them with stale or empty data silently.
 - Host adapters own only a stable DOM target and lifecycle cleanup.

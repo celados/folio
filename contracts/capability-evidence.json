@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "notebookKit": {
+      "revision": "7602ed2b9075c2ca0fa0ea21d5549b327dbaa263",
+      "version": "2.1.8"
+    },
+    "observableInputs": {
+      "revision": "04a1a8bc8bc935cf557aa512ffedccfc03262961",
+      "version": "0.12.0"
+    }
+  },
+  "claims": [
+    {
+      "id": "core.host-boundary",
+      "disposition": "parity",
+      "evidence": [
+        "packages/core/src/mount.test.ts",
+        "packages/react/src/mount.test.tsx",
+        "tests/browser/host-boundary.spec.ts",
+        "tests/hmr/hmr.spec.ts"
+      ]
+    },
+    {
+      "id": "vite.duckdb-resource-pipeline",
+      "disposition": "parity",
+      "evidence": [
+        "packages/vite/src/compiler.test.ts",
+        "packages/vite/src/duckdb.test.ts",
+        "packages/vite/src/plugin.test.ts"
+      ]
+    },
+    {
+      "id": "resources.resource-file-esm",
+      "disposition": "parity",
+      "evidence": [
+        "packages/resources/src/resource-file.test.ts",
+        "packages/resources/src/resource-file-vite.test.ts",
+        "examples/world-development/src/components/resource-file-preview.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "resources.dom-readers",
+      "disposition": "parity",
+      "evidence": [
+        "packages/resources/src/resource-file.test.ts",
+        "examples/world-development/src/components/resource-file-preview.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "resources.arrow-parquet-readers",
+      "disposition": "parity",
+      "evidence": [
+        "packages/resources/src/resource-file.test.ts",
+        "packages/resources/src/resource-file-parquet-retry.test.ts",
+        "packages/resources/src/resource-file-vite.test.ts",
+        "examples/world-development/src/components/advanced-resource-preview.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "resources.zip-xlsx-readers",
+      "disposition": "parity",
+      "evidence": [
+        "packages/resources/src/resource-file.test.ts",
+        "examples/world-development/src/components/advanced-resource-preview.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "resources.arquero-reader",
+      "disposition": "parity",
+      "evidence": [
+        "packages/resources/src/resource-file.test.ts",
+        "packages/resources/src/resource-file-vite.test.ts",
+        "examples/world-development/src/components/advanced-resource-preview.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "ui.data-table",
+      "disposition": "parity",
+      "evidence": [
+        "packages/ui/src/components.test.ts",
+        "examples/world-development/src/components/world-development-report.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "ui.search",
+      "disposition": "parity",
+      "evidence": [
+        "packages/ui/src/components.test.ts",
+        "examples/world-development/src/components/world-development-report.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "ui.inspector",
+      "disposition": "parity",
+      "evidence": [
+        "packages/ui/src/components.test.ts",
+        "examples/world-development/src/components/world-development-report.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "ui.download",
+      "disposition": "parity",
+      "evidence": [
+        "packages/ui/src/components.test.ts",
+        "examples/world-development/src/components/world-development-report.tsrx",
+        "tests/browser/host-boundary.spec.ts"
+      ]
+    },
+    {
+      "id": "architecture.observable-expression-runtime",
+      "disposition": "deleted",
+      "evidence": ["AGENTS.md", "docs/architecture/package-boundaries.md"]
+    },
+    {
+      "id": "architecture.foreign-view-runtime",
+      "disposition": "deleted",
+      "evidence": [
+        "AGENTS.md",
+        "docs/architecture/package-boundaries.md",
+        "packages/react/src/mount.test.tsx"
+      ]
+    }
+  ]
+}

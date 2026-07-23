@@ -25,17 +25,19 @@ the importing component chunk.
 
 The acceptance app migrates four official Observable/D3 examples into one ordinary named TSRX
 component. It includes 209-year animation, a brush-linked scatterplot, a zoomable population
-treemap, a pointer-driven history chart, filters, reusable table/download components, and explicit
-Resource inspection.
+treemap, a pointer-driven history chart, filters, reusable table/search/download/inspection
+components, and browser-side `ResourceFile` readers over ordinary Vite asset URLs.
 
 ```bash
 vp install
 bun run packages:build
+bun run capabilities:check
 bun run check
 bun run typecheck
 bun run test
 bun run build
 bun run test:e2e
+bun run test:hmr
 bun run packages:pack
 bun run packages:verify
 ```

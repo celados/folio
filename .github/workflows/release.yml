@@ -38,6 +38,7 @@ jobs:
 
       - name: Check source contracts
         run: |
+          bun run capabilities:check
           bun run check
           bun run typecheck
           bun run test
@@ -46,7 +47,9 @@ jobs:
         run: bun run build
 
       - name: Exercise both hosts in system Chrome
-        run: bun run test:e2e
+        run: |
+          bun run test:e2e
+          bun run test:hmr
 
       - name: Publish the inspected artifacts
         run: bun scripts/packages.ts publish

@@ -8,12 +8,14 @@
   "type": "module",
   "scripts": {
     "build": "vp run -F '@celados/folio-example-*' --fail-if-no-match build",
+    "capabilities:check": "bun scripts/check-capabilities.ts",
     "check": "vp check",
     "packages:pack": "bun scripts/packages.ts pack",
     "packages:build": "bun scripts/packages.ts build",
     "packages:verify": "bun scripts/packages.ts verify-local",
     "test": "vp test",
     "test:e2e": "playwright test",
+    "test:hmr": "playwright test --config playwright.hmr.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
