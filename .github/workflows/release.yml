@@ -12,6 +12,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
