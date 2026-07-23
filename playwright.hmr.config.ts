@@ -18,7 +18,8 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: 'vp dev --host 127.0.0.1 --port 43175 --strictPort',
+      // HMR must use the Host's pinned Vite runtime, not whichever global vp setup runs CI.
+      command: 'bunx vite dev --host 127.0.0.1 --port 43175 --strictPort',
       cwd: resolve('examples/tanstack-start'),
       port: 43175,
       reuseExistingServer: false,
