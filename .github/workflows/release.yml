@@ -18,8 +18,13 @@ jobs:
       - name: Check out the release revision
         uses: actions/checkout@v7
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Set up Vite+
         uses: voidzero-dev/setup-vp@v1
+        with:
+          run-install: false
 
       - name: Install the locked workspace
         run: vp install --frozen-lockfile
