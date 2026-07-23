@@ -32,17 +32,17 @@ jobs:
       - name: Install the locked workspace
         run: vp install --frozen-lockfile
 
+      - name: Build and verify package artifacts
+        run: |
+          bun run packages:pack
+          bun run packages:verify
+
       - name: Check source contracts
         run: |
           bun run capabilities:check
           bun run check
           bun run typecheck
           bun run test
-
-      - name: Build and verify package artifacts
-        run: |
-          bun run packages:pack
-          bun run packages:verify
 
       - name: Build both acceptance hosts
         run: bun run build
